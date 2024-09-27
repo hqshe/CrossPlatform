@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossplatLab", "CrossplatLab\CrossplatLab.csproj", "{F44BC30B-F9F8-471A-A223-B7752D283347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{EB4FE28E-FC10-4631-8E2D-81174521CF7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F44BC30B-F9F8-471A-A223-B7752D283347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44BC30B-F9F8-471A-A223-B7752D283347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44BC30B-F9F8-471A-A223-B7752D283347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44BC30B-F9F8-471A-A223-B7752D283347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4FE28E-FC10-4631-8E2D-81174521CF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4FE28E-FC10-4631-8E2D-81174521CF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4FE28E-FC10-4631-8E2D-81174521CF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4FE28E-FC10-4631-8E2D-81174521CF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22FCFD4C-9847-41C8-B9A3-FB8924EEF73F}
+	EndGlobalSection
+EndGlobal
