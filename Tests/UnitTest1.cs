@@ -5,48 +5,48 @@ namespace Tests
     public class UnitTest1
     {
         [Fact]
-        public void Test_MediumInput1()
+        public void Test_Valid1()
         {
 
-            int n = 5;
+            int n = 50;
             int k = 3;
             int pos = 10;
 
 
-            string result = Program.FindSequence(n, k, pos);
+            bool result = Program.isValuesValid(n, k, pos);
 
 
-            Assert.Equal("cde", result);
+            Assert.False(result);
         }
 
         [Fact]
-        public void Test_MediumInput2()
+        public void Test_Valid2()
         {
 
-            int n = 6;
-            int k = 4;
-            int pos = 5;
+            int n = 5;
+            int k = 33;
+            int pos = 10;
 
 
-            string result = Program.FindSequence(n, k, pos);
+            bool result = Program.isValuesValid(n, k, pos);
 
 
-            Assert.Equal("abdf", result);
+            Assert.False(result);
         }
 
         [Fact]
-        public void Test_LargeInput()
+        public void Test_Valid3()
         {
 
-            int n = 10;
-            int k = 5;
-            int pos = 120;
+            int n = 5;
+            int k = 3;
+            int pos = 100;
 
 
-            string result = Program.FindSequence(n, k, pos);
+            bool result = Program.isValuesValid(n, k, pos);
 
 
-            Assert.Equal("aegij", result);
+            Assert.False(result);
         }
 
         [Fact]
