@@ -2,7 +2,7 @@ using CrossplatLab;
 
 namespace Tests
 {
-    public class UnitTest1
+    public class CrossplatLab_Test
     {
         [Fact]
         public void Test_Valid1()
@@ -12,8 +12,9 @@ namespace Tests
             int k = 3;
             int pos = 10;
 
-
             bool result = Program.isValuesValid(n, k, pos);
+            Console.WriteLine(result.ToString());
+            Console.WriteLine("Should be false");
 
 
             Assert.False(result);
@@ -29,7 +30,8 @@ namespace Tests
 
 
             bool result = Program.isValuesValid(n, k, pos);
-
+            Console.WriteLine(result.ToString());
+            Console.WriteLine("Should be false");
 
             Assert.False(result);
         }
@@ -44,7 +46,8 @@ namespace Tests
 
 
             bool result = Program.isValuesValid(n, k, pos);
-
+            Console.WriteLine(result.ToString());
+            Console.WriteLine("Should be false");
 
             Assert.False(result);
         }
@@ -59,7 +62,8 @@ namespace Tests
 
 
             string result = Program.FindSequence(n, k, pos);
-
+            Console.WriteLine(result);
+            Console.WriteLine("Should be bc");
 
             Assert.Equal("bc", result);
         }
@@ -74,7 +78,8 @@ namespace Tests
 
 
             string result = Program.FindSequence(n, k, pos);
-
+            Console.WriteLine(result);
+            Console.WriteLine("Should be bcd");
 
             Assert.Equal("bcd", result);
         }
