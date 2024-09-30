@@ -1,10 +1,34 @@
 ﻿namespace Lab2
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            int pos;
+            if (!int.TryParse(Console.ReadLine(), out pos))
+            {
+                throw new Exception("Invalid input");
+            }
+
+            for (int step = 26; step >= 1; step--)
+            {
+                int half = (1 << (step - 1)) - 1;
+                if (pos == 1)
+                {
+                    Console.WriteLine((char)('a' + step - 1));
+                    return;
+                }
+                else if (pos <= 1 + half)
+                {
+                    pos--;
+                }
+                else
+                {
+                    pos -= 1 + half;
+                }
+            }
+
+            throw new Exception("Should not reach here");
         }
     }
 }
