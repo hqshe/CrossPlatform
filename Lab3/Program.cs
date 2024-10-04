@@ -172,10 +172,13 @@ namespace Lab3
     {
         static void Main(string[] args)
         {
-            string[] input = Console.ReadLine().Split();
-            int N = int.Parse(input[0]);
-            int S = int.Parse(input[1]) - 1; // Convert to zero-based index
-            int F = int.Parse(input[2]) - 1; // Convert to zero-based index
+            string inputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "INPUT.txt");
+            string[] input = File.ReadAllLines(inputPath);
+
+            string[] firstLine = input[0].Split();
+            int N = int.Parse(firstLine[0]);
+            int S = int.Parse(firstLine[1]);
+            int F = int.Parse(firstLine[2]);
 
             var g = new Graph();
             for (int i = 0; i < N; i++)
@@ -183,22 +186,23 @@ namespace Lab3
                 g.AddVertex((i + 1).ToString());
             }
 
-            for (int i = 0; i < N; i++)
+            for (int i = 1; i <= N; i++)
             {
-                input = Console.ReadLine().Split();
+                string[] line = input[i].Split();
                 for (int j = 0; j < N; j++)
                 {
-                    int weight = int.Parse(input[j]);
-                    if (weight != -1 && i != j)
+                    int weight = int.Parse(line[j]);
+                    if (weight != -1 && i - 1 != j)
                     {
-                        g.AddEdge((i + 1).ToString(), (j + 1).ToString(), weight);
+                        g.AddEdge((i).ToString(), (j + 1).ToString(), weight);
                     }
                 }
             }
 
             var dijkstra = new Dijkstra(g);
-            int shortestPathWeight = dijkstra.FindShortestPath(g.FindVertex((S + 1).ToString()), g.FindVertex((F + 1).ToString()));
-            Console.WriteLine(shortestPathWeight);
+            int shortestPathWeight = dijkstra.FindShortestPath(g.FindVertex((S).ToString()), g.FindVertex((F).ToString()));
+            string outputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "OUTPUT.txt");
+            File.WriteAllText(outputPath, shortestPathWeight.ToString());
         }
     }
 }
