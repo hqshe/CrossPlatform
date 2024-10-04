@@ -168,18 +168,14 @@ namespace Lab3
         }
     }
 
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static int SetResult(string[] input)
         {
-            string inputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "INPUT.txt");
-            string[] input = File.ReadAllLines(inputPath);
-
             string[] firstLine = input[0].Split();
             int N = int.Parse(firstLine[0]);
             int S = int.Parse(firstLine[1]);
             int F = int.Parse(firstLine[2]);
-
             var g = new Graph();
             for (int i = 0; i < N; i++)
             {
@@ -201,8 +197,16 @@ namespace Lab3
 
             var dijkstra = new Dijkstra(g);
             int shortestPathWeight = dijkstra.FindShortestPath(g.FindVertex((S).ToString()), g.FindVertex((F).ToString()));
+            return shortestPathWeight;
+        }
+        static void Main(string[] args)
+        {
+            string inputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "INPUT.txt");
+            string[] input = File.ReadAllLines(inputPath);
+
+            int res = SetResult(input);
             string outputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "OUTPUT.txt");
-            File.WriteAllText(outputPath, shortestPathWeight.ToString());
+            File.WriteAllText(outputPath, res.ToString());
         }
     }
 }
