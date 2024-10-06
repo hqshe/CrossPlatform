@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <Target Name="Build">
-    <Exec Command="dotnet build $(SolutionPath)" />
+    <Exec Command="dotnet build &quot;$(SolutionPath)&quot;" />
   </Target>
 
   <Target Name="Run">
-    <Exec Command="dotnet run --project $(SolutionPath)" />
+    <Exec Command="dotnet run --project &quot;$(SolutionPath)&quot;" />
   </Target>
 
   <Target Name="Test">
-    <Exec Command="dotnet test $(SolutionTestPath)" />
+    <Exec Command="dotnet test &quot;$(SolutionTestPath)&quot;" />
   </Target>
 
 </Project>
