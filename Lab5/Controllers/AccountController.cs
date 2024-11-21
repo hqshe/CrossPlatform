@@ -13,35 +13,35 @@ namespace Lab5.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _config;
 
-        public AccountController(IConfiguration configuration)
+        public AccountController(IConfiguration config)
         {
-            _configuration = configuration;
+            _config = config;
         }
 
-        public async Task Login(string returnUrl = "/")
+        public async Task Login(string redirectUrl = "/")
         {
-            var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
-                .WithRedirectUri(returnUrl)
+            var authenticationProps = new LoginAuthenticationPropertiesBuilder()
+                .WithRedirectUri(redirectUrl)
                 .Build();
 
-            await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
+            await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProps);
         }
 
         [Authorize]
         public async Task Logout()
         {
-            var authenticationProperties = new LogoutAuthenticationPropertiesBuilder()
+            var logoutProps = new LogoutAuthenticationPropertiesBuilder()
                 .WithRedirectUri(Url.Action("Index", "Home"))
                 .Build();
 
-            await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
+            await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, logoutProps);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Profile()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -53,24 +53,24 @@ namespace Lab5.Controllers
 
             if (userId != null)
             {
-                var metadata = await GetUserMetadataAsync(userId);
-                if (metadata != null)
+                var userMetadata = await FetchUserMetadataAsync(userId);
+                if (userMetadata != null)
                 {
-                    userProfile.FullName = metadata.FullName;
-                    userProfile.PhoneNumber = metadata.PhoneNumber;
+                    userProfile.FullName = userMetadata.FullName;
+                    userProfile.PhoneNumber = userMetadata.PhoneNumber;
                 }
             }
 
             return View(userProfile);
         }
 
-        private async Task<UserMetadata> GetUserMetadataAsync(string userId)
+        private async Task<UserMetadata> FetchUserMetadataAsync(string userId)
         {
-            var client = new HttpClient();
-            var token = await GetManagementApiTokenAsync();
+            using var client = new HttpClient();
+            var token = await RetrieveManagementApiTokenAsync();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var domain = _configuration["Auth0:Domain"];
+            var domain = _config["Auth0:Domain"];
             var response = await client.GetAsync($"https://{domain}/api/v2/users/{userId}");
 
             if (response.IsSuccessStatusCode)
@@ -95,11 +95,11 @@ namespace Lab5.Controllers
                 return View(model);
 
             using var client = new HttpClient();
-            var token = await GetManagementApiTokenAsync();
+            var token = await RetrieveManagementApiTokenAsync();
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var user = new
+            var newUser = new
             {
                 email = model.Email,
                 user_metadata = new
@@ -112,7 +112,7 @@ namespace Lab5.Controllers
                 username = model.Username
             };
 
-            var response = await client.PostAsJsonAsync($"https://{_configuration["Auth0:Domain"]}/api/v2/users", user);
+            var response = await client.PostAsJsonAsync($"https://{_config["Auth0:Domain"]}/api/v2/users", newUser);
 
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Login");
@@ -124,12 +124,12 @@ namespace Lab5.Controllers
             return View(model);
         }
 
-        private async Task<string> GetManagementApiTokenAsync()
+        private async Task<string> RetrieveManagementApiTokenAsync()
         {
-            var client = new HttpClient();
-            var clientId = _configuration["Auth0:ClientId"];
-            var clientSecret = _configuration["Auth0:ClientSecret"];
-            var domain = _configuration["Auth0:Domain"];
+            using var client = new HttpClient();
+            var clientId = _config["Auth0:ClientId"];
+            var clientSecret = _config["Auth0:ClientSecret"];
+            var domain = _config["Auth0:Domain"];
 
             var tokenRequest = new
             {
@@ -142,7 +142,7 @@ namespace Lab5.Controllers
             var response = await client.PostAsJsonAsync($"https://{domain}/oauth/token", tokenRequest);
             var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
 
-            return tokenResponse.AccessToken;
+            return tokenResponse?.AccessToken;
         }
 
         private class TokenResponse
